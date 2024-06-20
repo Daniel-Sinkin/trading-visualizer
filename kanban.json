@@ -15,7 +15,12 @@
         },
         {
             "title": "Doing",
-            "tasks": [],
+            "tasks": [
+                {
+                    "text": "Create a more sophisticated base object that handles VAO, VBO shader program generation and so.\n\nDon't sure the broad class structure of the tutorial on the 3D engine, instead make a simplest viable product that goes beyond the boilerplate heavy approach of the snake game.",
+                    "id": "twarzzs6ta6hdhkfhlk551sz"
+                }
+            ],
             "id": "liacpgfqyedl27sxyi1vydl9",
             "color": "#0693e3"
         },
@@ -33,5 +38,5 @@
     ],
     "autosave": true,
     "saveToFile": true,
-    "timestamp": 1718923859983
+    "timestamp": 1718924526150
 }
