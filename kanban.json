@@ -15,12 +15,7 @@
         },
         {
             "title": "Doing",
-            "tasks": [
-                {
-                    "text": "Create a more sophisticated base object that handles VAO, VBO shader program generation and so.\n\nDon't sure the broad class structure of the tutorial on the 3D engine, instead make a simplest viable product that goes beyond the boilerplate heavy approach of the snake game.",
-                    "id": "twarzzs6ta6hdhkfhlk551sz"
-                }
-            ],
+            "tasks": [],
             "id": "liacpgfqyedl27sxyi1vydl9",
             "color": "#0693e3"
         },
@@ -30,6 +25,10 @@
                 {
                     "text": "## Initial Setup\nCreate GraphicsEngine class\n\nGet a window with debug background  color to appear",
                     "id": "w3l63ecg512yuopo1bliu2vc"
+                },
+                {
+                    "text": "Create a more sophisticated base object that handles VAO, VBO shader program generation and so.\n\nDon't sure the broad class structure of the tutorial on the 3D engine, instead make a simplest viable product that goes beyond the boilerplate heavy approach of the snake game.\n\nImplement Background as an inheritor of an abstract QUAD class.",
+                    "id": "twarzzs6ta6hdhkfhlk551sz"
                 }
             ],
             "id": "lylwc6m2rap3a5ina80s8ryh",
@@ -38,5 +37,5 @@
     ],
     "autosave": true,
     "saveToFile": true,
-    "timestamp": 1718924526150
+    "timestamp": 1718926286972
 }
