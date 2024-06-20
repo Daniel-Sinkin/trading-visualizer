@@ -9,13 +9,31 @@
         },
         {
             "title": "To-Do",
-            "tasks": [],
+            "tasks": [
+                {
+                    "text": "## Drag'n'Drop csv files",
+                    "id": "mf87b18enqtuxhcltiuenlj0"
+                },
+                {
+                    "text": "## Interactivity",
+                    "id": "m01inwj94qvcj3tldvo3ldwn"
+                },
+                {
+                    "text": "## Lines",
+                    "id": "x0s4paujtpysq17p8c2pgzoq"
+                }
+            ],
             "id": "h8dg8b0ba8blz6x3ynbfk023",
             "color": "#fcb900"
         },
         {
             "title": "Doing",
-            "tasks": [],
+            "tasks": [
+                {
+                    "text": "## Candles",
+                    "id": "ntscnlg4dqr2jbijc6gg0mus"
+                }
+            ],
             "id": "liacpgfqyedl27sxyi1vydl9",
             "color": "#0693e3"
         },
@@ -37,5 +55,5 @@
     ],
     "autosave": true,
     "saveToFile": true,
-    "timestamp": 1718926286972
+    "timestamp": 1718926555084
 }
