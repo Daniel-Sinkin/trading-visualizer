@@ -1,0 +1,37 @@
+{
+    "title": "Kanban",
+    "cols": [
+        {
+            "title": "Bugs",
+            "tasks": [],
+            "id": "dh5bws7aeyrxvky6mxvqljzk",
+            "color": "#eb144c"
+        },
+        {
+            "title": "To-Do",
+            "tasks": [],
+            "id": "h8dg8b0ba8blz6x3ynbfk023",
+            "color": "#fcb900"
+        },
+        {
+            "title": "Doing",
+            "tasks": [],
+            "id": "liacpgfqyedl27sxyi1vydl9",
+            "color": "#0693e3"
+        },
+        {
+            "title": "Done",
+            "tasks": [
+                {
+                    "text": "## Initial Setup\nCreate GraphicsEngine class\n\nGet a window with debug background  color to appear",
+                    "id": "w3l63ecg512yuopo1bliu2vc"
+                }
+            ],
+            "id": "lylwc6m2rap3a5ina80s8ryh",
+            "color": "#00d084"
+        }
+    ],
+    "autosave": true,
+    "saveToFile": true,
+    "timestamp": 1718923859983
+}

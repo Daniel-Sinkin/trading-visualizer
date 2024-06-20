@@ -16,9 +16,6 @@ class GraphicsEngine:
     def setup_pygame_and_opengl(self):
         pg.init()
 
-        self.pg_window: pg.Surface = pg.display.set_mode(
-            (1600, 900), flags=pg.OPENGL | pg.DOUBLEBUF
-        )
         self.clock = pg.time.Clock()
 
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
@@ -28,10 +25,20 @@ class GraphicsEngine:
         )
         pg.display.gl_set_attribute(pg.GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, True)
 
+        self.pg_window: pg.Surface = pg.display.set_mode(
+            (1600, 900), flags=pg.OPENGL | pg.DOUBLEBUF
+        )
+
         self.ctx: Context = mgl.create_context()
         self.ctx.enable(flags=mgl.DEPTH_TEST | mgl.CULL_FACE)
 
-    def update(self): ...
+    def handle_events(self):
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                self.is_running = False
+
+    def update(self):
+        pass
 
     def render(self):
         self.ctx.clear(1.0, 0.0, 1.0)
@@ -39,6 +46,7 @@ class GraphicsEngine:
         pg.display.flip()
 
     def iteration(self) -> None:
+        self.handle_events()
         self.update()
         self.render()
 
@@ -46,4 +54,4 @@ class GraphicsEngine:
         while self.is_running:
             self.iteration()
 
-            self.clock.tick(60.0)
+            self.clock.tick(15.0)
