@@ -62,16 +62,16 @@ class GraphicsEngine:
 class BaseObject(ABC):
     def __init__(self, app: GraphicsEngine):
         self.app: GraphicsEngine = app
-        self.ctx = self.app.ctx
+        self.ctx: Context = self.app.ctx
 
     def render(self) -> None:
         self.vao.render()
 
     def create_vao(self) -> None:
-        self.vbo = self.ctx.buffer(self.get_vertex_data())
-        self.program = self.get_program()
+        self.vbo: Buffer = self.ctx.buffer(self.get_vertex_data())
+        self.program: Program = self.get_program()
 
-        self.vao = self.ctx.vertex_array(
+        self.vao: VertexArray = self.ctx.vertex_array(
             self.program,
             [
                 (self.vbo, self.get_buffer_format(), *self.get_attributes()),
@@ -101,7 +101,3 @@ class BaseObject(ABC):
 
     @abstractmethod
     def get_fragment_shader(self) -> str: ...
-
-
-class QuadBaseObject(ABC):
-    pass
