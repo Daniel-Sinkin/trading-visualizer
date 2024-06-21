@@ -11,6 +11,14 @@
             "title": "To-Do",
             "tasks": [
                 {
+                    "text": "## Markers\nAllow placing arbitrary markers anywhere in the display",
+                    "id": "ksg7757k9qa46j92wd80gzw7"
+                },
+                {
+                    "text": "## Coordinate Axis\nAdd a coordinate axis in which the candles are drawn in and a crosshair which takes information from those.",
+                    "id": "f2f9f1zyzqqooj5hby7b5jek"
+                },
+                {
                     "text": "## File Handling\n* Be able to generate Candle positions, heights and signs from ...\n* Drag'n'Drop csv files",
                     "id": "mf87b18enqtuxhcltiuenlj0"
                 },
@@ -54,5 +62,5 @@
     ],
     "autosave": true,
     "saveToFile": true,
-    "timestamp": 1718931920689
+    "timestamp": 1718933343226
 }
