@@ -206,32 +206,12 @@ class Background(QuadObject):
         self.program["u_time"] = self.app.time
 
     def get_vertex_shader(self) -> str:
-        return """
-        #version 330
-
-        in vec2 in_position;
-
-        void main() {
-            gl_Position = vec4(in_position, 0.0, 1.0);
-        }
-        """
+        with open("shaders/background.vert", "r") as file:
+            return file.read()
 
     def get_fragment_shader(self) -> str:
-        return """
-        #version 330
-
-        out vec4 fragColor;
-
-        uniform vec2 u_mouse_position;
-        uniform float u_time;
-        
-        void main() {
-            float dist = distance(gl_FragCoord.xy * vec2(1.0, -1.0) + vec2(0.0, 900), u_mouse_position);
-            float time_factor = 50.0 + 25.0 * sin(u_time * 3.14159);
-            dist = clamp(dist, 0.0, time_factor) / time_factor;
-            fragColor = vec4(vec3(0.17, 0.17, 0.25), 1.0) * vec4(vec3(dist), 1.0);
-        }
-        """
+        with open("shaders/background.frag", "r") as file:
+            return file.read()
 
 
 class Candle(QuadObject):
@@ -291,48 +271,12 @@ class Candle(QuadObject):
         )
 
     def get_outline_fragment_shader(self) -> str:
-        return """
-        #version 330
-        out vec4 fragColor;
-
-        void main() {
-            fragColor = vec4(0.0, 0.0, 0.0, 1.0);  // Black color for outline
-        }
-        """
+        with open("shaders/outline.frag", "r") as file:
+            return file.read()
 
     def get_outline_geometry_shader(self) -> str:
-        return """
-        #version 330 core
-        layout(lines) in;
-        layout(triangle_strip, max_vertices = 4) out;
-
-        uniform float u_line_width;
-        uniform vec2 u_screen_size;
-
-        void main() {
-            float aspect_ratio = u_screen_size.x / u_screen_size.y;
-            vec2 aspect_correction = vec2(aspect_ratio, 1.0);
-
-            for (int i = 0; i < 2; ++i) {
-                vec2 direction = normalize((gl_in[(i + 1) % 2].gl_Position.xy - gl_in[i].gl_Position.xy) * aspect_correction);
-                vec2 normal = vec2(-direction.y, direction.x) * u_line_width / 2.0;
-
-                gl_Position = gl_in[i].gl_Position + vec4(normal / aspect_correction, 0.0, 0.0);
-                EmitVertex();
-
-                gl_Position = gl_in[i].gl_Position - vec4(normal / aspect_correction, 0.0, 0.0);
-                EmitVertex();
-
-                gl_Position = gl_in[(i + 1) % 2].gl_Position + vec4(normal / aspect_correction, 0.0, 0.0);
-                EmitVertex();
-
-                gl_Position = gl_in[(i + 1) % 2].gl_Position - vec4(normal / aspect_correction, 0.0, 0.0);
-                EmitVertex();
-
-                EndPrimitive();
-            }
-        }
-        """
+        with open("shaders/outline.geom", "r") as file:
+            return file.read()
 
     def get_outline_vertex_data(self) -> np.ndarray:
         # Define the vertex data for a quad
