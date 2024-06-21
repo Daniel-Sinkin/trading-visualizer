@@ -28,12 +28,7 @@
         },
         {
             "title": "Doing",
-            "tasks": [
-                {
-                    "text": "## Candles",
-                    "id": "ntscnlg4dqr2jbijc6gg0mus"
-                }
-            ],
+            "tasks": [],
             "id": "liacpgfqyedl27sxyi1vydl9",
             "color": "#0693e3"
         },
@@ -45,8 +40,12 @@
                     "id": "w3l63ecg512yuopo1bliu2vc"
                 },
                 {
-                    "text": "Create a more sophisticated base object that handles VAO, VBO shader program generation and so.\n\nDon't sure the broad class structure of the tutorial on the 3D engine, instead make a simplest viable product that goes beyond the boilerplate heavy approach of the snake game.\n\nImplement Background as an inheritor of an abstract QUAD class.",
+                    "text": "Create a more sophisticated base object that handles VAO, VBO shader program generation and so.\n\nDon't use the broad class structure of the tutorial on the 3D engine, instead make a simplest viable product that goes beyond the boilerplate heavy approach of the snake game.\n\nImplement Background as an inheritor of an abstract QUAD class.",
                     "id": "twarzzs6ta6hdhkfhlk551sz"
+                },
+                {
+                    "text": "## Candles\n\nBe able to draw Candles as Quads\n\nScale and position them arbitrarily (for now in NDC)\n\nAllow passing color to them coloring them green or red.",
+                    "id": "ntscnlg4dqr2jbijc6gg0mus"
                 }
             ],
             "id": "lylwc6m2rap3a5ina80s8ryh",
@@ -55,5 +54,5 @@
     ],
     "autosave": true,
     "saveToFile": true,
-    "timestamp": 1718926555084
+    "timestamp": 1718929695097
 }
