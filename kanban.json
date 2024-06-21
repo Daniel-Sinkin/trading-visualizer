@@ -11,12 +11,8 @@
             "title": "To-Do",
             "tasks": [
                 {
-                    "text": "## Drag'n'Drop csv files",
+                    "text": "## File Handling\n* Be able to generate Candle positions, heights and signs from ...\n* Drag'n'Drop csv files",
                     "id": "mf87b18enqtuxhcltiuenlj0"
-                },
-                {
-                    "text": "## Interactivity",
-                    "id": "m01inwj94qvcj3tldvo3ldwn"
                 },
                 {
                     "text": "## Lines",
@@ -58,5 +54,5 @@
     ],
     "autosave": true,
     "saveToFile": true,
-    "timestamp": 1718931869699
+    "timestamp": 1718931920689
 }
