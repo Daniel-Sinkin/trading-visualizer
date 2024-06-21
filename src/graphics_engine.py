@@ -82,8 +82,6 @@ class GraphicsEngine:
                 self.panning_speed * self.mouse_delta / vec2(self.window_size)
             )
 
-        print(self.screen_offset_floating)
-
     def render(self) -> None:
         self.ctx.clear(1.0, 0.0, 1.0)
 
@@ -189,15 +187,7 @@ class QuadObject(BaseObject):
 
     def get_vertex_data(self) -> np.ndarray:
         # Define the vertex data for a quad
-        # fmt: off
-        vertex_data = np.array([
-            -1.0, -1.0,
-             1.0, -1.0,
-            -1.0,  1.0,
-             1.0,  1.0,
-        ], dtype=np.float32)
-        # fmt: on
-        return vertex_data
+        return np.load("data/quad_vertex_data.npy")
 
 
 class Background(QuadObject):
@@ -271,24 +261,15 @@ class Candle(QuadObject):
         )
 
     def get_outline_fragment_shader(self) -> str:
-        with open("shaders/outline.frag", "r") as file:
+        with open("shaders/candle_outline.frag", "r") as file:
             return file.read()
 
     def get_outline_geometry_shader(self) -> str:
-        with open("shaders/outline.geom", "r") as file:
+        with open("shaders/candle_outline.geom", "r") as file:
             return file.read()
 
     def get_outline_vertex_data(self) -> np.ndarray:
-        # Define the vertex data for a quad
-        # fmt: off
-        vertex_data = np.array([
-            -1.0, -1.0,
-             1.0, -1.0,
-             1.0,  1.0,
-            -1.0,  1.0,
-        ], dtype=np.float32)
-        # fmt: on
-        return vertex_data
+        return np.load("data/outline_vertex_data.npy")
 
     def render(self) -> None:
         self.outline_vao.render(mgl.LINE_LOOP)
