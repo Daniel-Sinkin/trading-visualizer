@@ -16,10 +16,13 @@ class GraphicsEngine:
         self.window_size: tuple[int, int] = (1600, 900)
         self.setup_pygame_and_opengl()
 
-        self.setup_objects()
-
+        self.screen_offset: vec2 = vec2(0.0, 0.0)
+        self.screen_offset_floating: vec2 = vec2(0.0, 0.0)
         self.screen_move_anchor: Optional[tuple[int, int]] = None
 
+        self.panning_speed = 1.5
+
+        self.setup_objects()
         self.is_running = True
 
     def setup_pygame_and_opengl(self) -> None:
@@ -57,11 +60,28 @@ class GraphicsEngine:
                     self.screen_move_anchor = pg.mouse.get_pos()
             case pg.MOUSEBUTTONUP:
                 if event.button == pg.BUTTON_RIGHT:
+                    self.mouse_delta: vec2 = vec2(pg.mouse.get_pos()) - vec2(
+                        self.screen_move_anchor
+                    )
+                    self.screen_offset += (
+                        self.panning_speed * self.mouse_delta / vec2(self.window_size)
+                    )
+                    self.screen_offset_floating = vec2(0.0, 0.0)
                     self.screen_move_anchor = None
 
     def update(self) -> None:
         self.background.update()
         self.scene.update()
+
+        if self.screen_move_anchor is not None:
+            self.mouse_delta: vec2 = vec2(pg.mouse.get_pos()) - vec2(
+                self.screen_move_anchor
+            )
+            self.screen_offset_floating = (
+                self.panning_speed * self.mouse_delta / vec2(self.window_size)
+            )
+
+        print(self.screen_offset_floating)
 
     def render(self) -> None:
         self.ctx.clear(1.0, 0.0, 1.0)
@@ -95,6 +115,7 @@ class Scene:
             Candle(self.app, vec2(0.0, 0.0), vec2(0.1, 0.3), is_positive=True),
             Candle(self.app, vec2(0.2, -0.1), vec2(0.1, 0.4), is_positive=False),
             Candle(self.app, vec2(0.4, -0.3), vec2(0.1, 0.2), is_positive=True),
+            Candle(self.app, vec2(0.6, 0.1), vec2(0.1, 0.2), is_positive=True),
         ]
 
     def update(self) -> None:
@@ -204,14 +225,28 @@ class Candle(QuadObject):
         self.program["u_position"] = pos
         self.program["u_scale"] = scale
         self.program["u_is_positive"] = is_positive
+        self.program["u_screen_offset"] = self.app.screen_offset
+        self.program["u_screen_offset_floating"] = self.app.screen_offset_floating
 
         self.outline_program: Program = self.get_outline_program()
         self.outline_program["u_screen_size"] = self.app.window_size
         self.outline_program["u_position"] = pos
         self.outline_program["u_scale"] = scale
         self.outline_program["u_line_width"] = 0.005
+        self.outline_program["u_screen_offset"] = self.app.screen_offset
+        self.outline_program["u_screen_offset_floating"] = (
+            self.app.screen_offset_floating
+        )
 
         self.outline_vao: VertexArray = self.create_outline_vao()
+
+    def update(self) -> None:
+        self.program["u_screen_offset"] = self.app.screen_offset
+        self.program["u_screen_offset_floating"] = self.app.screen_offset_floating
+        self.outline_program["u_screen_offset"] = self.app.screen_offset
+        self.outline_program["u_screen_offset_floating"] = (
+            self.app.screen_offset_floating
+        )
 
     def create_outline_vao(self) -> VertexArray:
         outline_vbo: Buffer = self.ctx.buffer(self.get_outline_vertex_data())
@@ -231,6 +266,9 @@ class Candle(QuadObject):
         uniform vec2 u_position;
         uniform vec2 u_scale;
 
+        uniform vec2 u_screen_offset;
+        uniform vec2 u_screen_offset_floating;
+
         void main() {
             float aspect_ratio = u_screen_size.x / u_screen_size.y;
 
@@ -239,6 +277,8 @@ class Candle(QuadObject):
             vec2 transformed_position = scaled_position + u_position;
 
             vec4 position = vec4(transformed_position / vec2(aspect_ratio, 1.0), 0.0, 1.0);
+
+            position.xy += u_screen_offset * vec2(1.0, -1.0) + u_screen_offset_floating * vec2(1.0, -1.0);
 
             gl_Position = position;
         }

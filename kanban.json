@@ -28,12 +28,7 @@
         },
         {
             "title": "Doing",
-            "tasks": [
-                {
-                    "text": "## Interactivity\nMoving the screen when holding right mouse button (panning).",
-                    "id": "gsy4pyr6spm608wpqc15lue2"
-                }
-            ],
+            "tasks": [],
             "id": "liacpgfqyedl27sxyi1vydl9",
             "color": "#0693e3"
         },
@@ -51,6 +46,10 @@
                 {
                     "text": "## Candles\n\nBe able to draw Candles as Quads\n\nScale and position them arbitrarily (for now in NDC)\n\nAllow passing color to them coloring them green or red.",
                     "id": "ntscnlg4dqr2jbijc6gg0mus"
+                },
+                {
+                    "text": "## Interactivity\nMoving the screen when holding right mouse button (panning).",
+                    "id": "gsy4pyr6spm608wpqc15lue2"
                 }
             ],
             "id": "lylwc6m2rap3a5ina80s8ryh",
@@ -59,5 +58,5 @@
     ],
     "autosave": true,
     "saveToFile": true,
-    "timestamp": 1718929775818
+    "timestamp": 1718931869699
 }
