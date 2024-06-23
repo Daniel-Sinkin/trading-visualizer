@@ -172,6 +172,11 @@ class Scene:
             Candle(self.app, vec2(0.6, 0.1), vec2(0.1, 0.2), is_positive=True),
             Candle(self.app, vec2(0.8, 0.0), vec2(0.1, 0.3), is_positive=False),
         ]
+        for obj in self.objects:
+            if isinstance(obj, Candle):
+                print(f"<{obj.start_position.x:.2f}, {obj.start_position.y:.2f}>")
+                print(f"<{obj.end_position.x:.2f}, {obj.end_position.y:.2f}>")
+                print()
 
     def update(self) -> None:
         for obj in self.objects:
@@ -262,7 +267,7 @@ class Background(QuadObject):
 class Candle(QuadObject):
     def __init__(self, app: GraphicsEngine, pos: vec2, scale: vec2, is_positive: bool):
         super().__init__(app)
-        self.pos: vec2 = pos  # Center position
+        self.position: vec2 = pos  # Center position
         self.scale: vec2 = scale
         self.is_positive: bool = is_positive
 
@@ -337,11 +342,11 @@ class Candle(QuadObject):
 
     @property
     def top_left_position(self) -> vec2:
-        return self.program["u_position"] - self.program["u_scale"] / 2.0
+        return self.position - self.scale / 2.0
 
     @property
     def bottom_right_position(self) -> vec2:
-        return self.program["u_position"] + self.program["u_scale"] / 2.0
+        return self.position + self.scale / 2.0
 
     @property
     def top_right_position(self) -> vec2:
@@ -350,6 +355,13 @@ class Candle(QuadObject):
     @property
     def bottom_left_position(self) -> vec2:
         return vec2(self.top_left_position.x, self.bottom_right_position.y)
+
+    @property
+    def start_position(self) -> vec2:
+        if self.is_positive:
+            return self.bottom_left_position
+        else:
+            return self.top_left_position
 
     @property
     def end_position(self) -> vec2:
