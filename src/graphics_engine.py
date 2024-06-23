@@ -4,7 +4,7 @@ from typing import Optional
 
 import moderngl as mgl
 import numpy as np
-from glm import mat4, vec2, vec3
+from glm import mat4, vec2, vec3  # noqa: F401
 from moderngl import Buffer, Context, Program, VertexArray  # noqa: F401
 
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
@@ -14,6 +14,7 @@ import pygame as pg  # noqa: E402
 class GraphicsEngine:
     def __init__(self):
         self.window_size: tuple[int, int] = (1600, 900)
+        self.aspect_ratio = self.window_size[0] / self.window_size[1]
         self.setup_pygame_and_opengl()
 
         self.screen_offset: vec2 = vec2(0.0, 0.0)
@@ -24,6 +25,14 @@ class GraphicsEngine:
 
         self.setup_objects()
         self.is_running = True
+
+        self.animations = []
+        if False:
+
+            def screen_offset_right(self):
+                self.screen_offset -= vec2(0.2 / 60.0, 0.0)
+
+            self.animations.append((lambda: screen_offset_right(self), self.time + 2.0))
 
     def setup_pygame_and_opengl(self) -> None:
         pg.init()
@@ -55,7 +64,48 @@ class GraphicsEngine:
         ):
             self.is_running = False
 
+        def screen_offset_anim_func(self, offset: vec2):
+            self.screen_offset += offset
+
         match event.type:
+            case pg.KEYDOWN:
+                match event.key:
+                    case pg.K_RIGHT:
+                        self.animations.append(
+                            (
+                                lambda: screen_offset_anim_func(
+                                    self, -vec2(1.0 / 50.0, 0.0) / self.aspect_ratio
+                                ),
+                                self.time + 2.0,
+                            )
+                        )
+                    case pg.K_LEFT:
+                        self.animations.append(
+                            (
+                                lambda: screen_offset_anim_func(
+                                    self, vec2(1.0 / 50.0, 0.0) / self.aspect_ratio
+                                ),
+                                self.time + 2.0,
+                            )
+                        )
+                    case pg.K_UP:
+                        self.animations.append(
+                            (
+                                lambda: screen_offset_anim_func(
+                                    self, vec2(0.0, 1.0 / 50.0)
+                                ),
+                                self.time + 2.0,
+                            )
+                        )
+                    case pg.K_DOWN:
+                        self.animations.append(
+                            (
+                                lambda: screen_offset_anim_func(
+                                    self, -vec2(0.0, 1.0 / 50.0)
+                                ),
+                                self.time + 2.0,
+                            )
+                        )
             case pg.MOUSEBUTTONDOWN:
                 if event.button == pg.BUTTON_RIGHT:
                     self.screen_move_anchor = pg.mouse.get_pos()
@@ -81,6 +131,10 @@ class GraphicsEngine:
             self.screen_offset_floating = (
                 self.panning_speed * self.mouse_delta / vec2(self.window_size)
             )
+
+        self.animations = [anim for anim in self.animations if anim[1] > self.time]
+        for anim in self.animations:
+            anim[0]()
 
     def render(self) -> None:
         self.ctx.clear(1.0, 0.0, 1.0)
@@ -116,6 +170,7 @@ class Scene:
             Candle(self.app, vec2(0.2, -0.1), vec2(0.1, 0.4), is_positive=False),
             Candle(self.app, vec2(0.4, -0.3), vec2(0.1, 0.2), is_positive=True),
             Candle(self.app, vec2(0.6, 0.1), vec2(0.1, 0.2), is_positive=True),
+            Candle(self.app, vec2(0.8, 0.0), vec2(0.1, 0.3), is_positive=False),
         ]
 
     def update(self) -> None:
@@ -207,6 +262,10 @@ class Background(QuadObject):
 class Candle(QuadObject):
     def __init__(self, app: GraphicsEngine, pos: vec2, scale: vec2, is_positive: bool):
         super().__init__(app)
+        self.pos: vec2 = pos  # Center position
+        self.scale: vec2 = scale
+        self.is_positive: bool = is_positive
+
         self.program["u_screen_size"] = self.app.window_size
         self.program["u_position"] = pos
         self.program["u_scale"] = scale
@@ -275,3 +334,26 @@ class Candle(QuadObject):
         self.outline_vao.render(mgl.LINE_LOOP)
 
         self.vao.render(self.render_mode)
+
+    @property
+    def top_left_position(self) -> vec2:
+        return self.program["u_position"] - self.program["u_scale"] / 2.0
+
+    @property
+    def bottom_right_position(self) -> vec2:
+        return self.program["u_position"] + self.program["u_scale"] / 2.0
+
+    @property
+    def top_right_position(self) -> vec2:
+        return vec2(self.bottom_right_position.x, self.top_left_position.y)
+
+    @property
+    def bottom_left_position(self) -> vec2:
+        return vec2(self.top_left_position.x, self.bottom_right_position.y)
+
+    @property
+    def end_position(self) -> vec2:
+        if self.is_positive:
+            return self.top_right_position
+        else:
+            return self.bottom_right_position
